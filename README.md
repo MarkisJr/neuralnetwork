@@ -21,3 +21,18 @@ Created by myself to study the applications and build process of Networks.
 - [Finn Eggers YouTube](https://www.youtube.com/channel/UCaKAU8vQzS-_e5xt7NSK3Xw) *Source of great help*
 - [Neural Networks by Sebastian Lague](https://www.youtube.com/watch?v=bVQUSndDllU&list=PLFt_AvWsXl0frsCrmv4fKfZ2OQIwoUuYO) *Source of inspiration*
 - [Introduction to ANN design by Daniela Kolarova](https://dzone.com/articles/designing-a-neural-network-in-java) *Understanding*
+
+
+# Plans for the Future
+
+As this network infrastructure is further developed and expanded more projects will come and improvements will be made.
+
+<img alt="Image of Idea Bulb" src="idea.png" stlye="float: left; height: 80px; width: auto;"></img>
+
+
+### Ideas:
+- Written number detector
+- Plot detector
+- Image generation
+- Chess ai???
+- This goat does not exist???
