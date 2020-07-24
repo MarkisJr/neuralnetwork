@@ -27,7 +27,7 @@ Created by myself to study the applications and build process of Networks.
 
 As this network infrastructure is further developed and expanded more projects will come and improvements will be made.
 
-<img alt="Image of Idea Bulb" src="idea.png" stlye="float: left; height: 80px; width: auto;"></img>
+<img alt="Image of Idea Bulb" src="idea.png" stlye="max-width:40%;"></img>
 
 
 ### Ideas:
