@@ -2,6 +2,8 @@ package network;
 
 import java.util.Arrays;
 
+import trainset.TrainSet;
+
 public class Network 
 {
 	
@@ -83,6 +85,42 @@ public class Network
 		return 1d / (1 + Math.exp(-x));
 	}
 	
+	public double MSE(double[] input, double[] target)
+	{
+		if(input.length != INPUT_SIZE || target.length != OUTPUT_SIZE) return 0;
+		calculate(input);
+		double v = 0;
+		for (int i=0; i<target.length; i++)
+		{
+			v += (target[i] - output[NETWORK_SIZE-1][i]) * (target[i] - output[NETWORK_SIZE-1][i]);
+		}
+		return v / (2d * target.length);
+	}
+	
+	public double MSE(TrainSet set)
+	{
+		double v =0;
+		for (int i=0; i<set.size(); i++)
+		{
+			v += MSE(set.getInput(i), set.getOutput(i));
+		}
+		return v / set.size();	
+	}
+	
+	public void train(TrainSet set, int loops, int batch_size)
+	{
+		if (set.INPUT_SIZE != INPUT_SIZE || set.OUTPUT_SIZE != OUTPUT_SIZE) return;
+		for (int i=0; i<loops; i++)
+		{
+			TrainSet batch = set.extractBatch(batch_size);
+			for (int b=0; b<batch_size; b++)
+			{
+				this.train(batch.getInput(b), batch.getOutput(b), 0.3);
+			}
+			System.out.println(MSE(batch));
+		}
+	}
+	
 	public void train(double[] input, double[] target, double rate)
 	{
 		if (input.length != INPUT_SIZE || target.length != OUTPUT_SIZE)
@@ -134,17 +172,20 @@ public class Network
 	
 	public static void main(String[] args)
 	{
-		Network net = new Network(6, 3, 3, 3, 6);
-		double[] input = new double[] {0.2,0.9,0.1,0.4,0.6,0.7};
-		double[] target = new double[] {0,0.2,0.4,0.6,0.8,1};
+		Network net = new Network(6, 4, 4, 2);
 		
-		for (int i=0; i<10000; i++)
+		TrainSet set = new TrainSet(6, 2);
+		set.addData(new double[] {0.1,0.2,0.3,0.4,0.5,0.6}, new double[] {0,1});
+		set.addData(new double[] {0.01,0.02,0.03,0.04,0.05,0.06}, new double[] {0,1});
+		set.addData(new double[] {0.5,0.72498,0.212,0.3,0.78,0.63327}, new double[] {1,1});
+		set.addData(new double[] {2,1,3,5,1,4}, new double[] {0,0.2});
+		
+		net.train(set, 100000, 4);
+		
+		for (int i=0; i<4; i++)
 		{
-			net.train(input, target, 2);
+			System.out.println(Arrays.toString(net.calculate(set.getInput(i))));
 		}
-		
-		double[] o = net.calculate(input);
-		System.out.println(Arrays.toString(o));
 	}
 	
 }

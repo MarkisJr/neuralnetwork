@@ -9,6 +9,8 @@ Created by myself to study the applications and build process of Networks.
 - Scalable: Input values, hidden neuron and outputs can all be customised to any double value
 - Lightweight: Uses little processing power and executes readily and rapidly
 - Independent: Free of any external libraries and packages, can be run stand-alone
+- Data sets: Allows for learning multiple tasks at the same time
+- Set Batching: Sets can be handled in batches for extreme cases
 
 
 ### Cons of this Network:
@@ -26,9 +28,6 @@ Created by myself to study the applications and build process of Networks.
 # Plans for the Future
 
 As this network infrastructure is further developed and expanded more projects will come and improvements will be made.
-
-<img alt="Image of Idea Bulb" src="idea.png" stlye="max-width:40%;"></img>
-TODO: Fix oversized image!!
 
 
 ### Ideas:
