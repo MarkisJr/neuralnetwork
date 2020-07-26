@@ -172,17 +172,14 @@ public class Network
 	
 	public static void main(String[] args)
 	{
-		Network net = new Network(6, 4, 4, 2);
+		Network net = new Network(4, 2, 2, 1);
 		
-		TrainSet set = new TrainSet(6, 2);
-		set.addData(new double[] {0.1,0.2,0.3,0.4,0.5,0.6}, new double[] {0,1});
-		set.addData(new double[] {0.01,0.02,0.03,0.04,0.05,0.06}, new double[] {0,1});
-		set.addData(new double[] {0.5,0.72498,0.212,0.3,0.78,0.63327}, new double[] {1,1});
-		set.addData(new double[] {2,1,3,5,1,4}, new double[] {0,0.2});
+		TrainSet set = new TrainSet(4, 1);
+		set.addData(new double[] {0.1,0.2,0.3,0.4}, new double[] {0.6});
+				
+		net.train(set, 100000, 1);
 		
-		net.train(set, 100000, 4);
-		
-		for (int i=0; i<4; i++)
+		for (int i=0; i<1; i++)
 		{
 			System.out.println(Arrays.toString(net.calculate(set.getInput(i))));
 		}
