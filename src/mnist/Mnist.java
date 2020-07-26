@@ -14,9 +14,9 @@ public class Mnist {
     public static void main(String[] args) {
         Network net = new Network(784, 70, 35, 10);
         TrainSet set = createTrainSet(0, 4999);
-        trainData(net, set, 200, 50, 100);
+        trainData(net, set, 100, 50, 100);
         
-        TrainSet testSet = createTrainSet(5000, 9999);
+        TrainSet testSet = createTrainSet(0, 4999);
         testTrainSet(net, testSet, 10);
     }
 
