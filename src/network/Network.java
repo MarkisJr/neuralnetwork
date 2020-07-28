@@ -1,10 +1,20 @@
 package network;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Arrays;
 
 import trainset.TrainSet;
 
-public class Network 
+/**
+ *  Made by MarkisJr. 28/07/2020
+ */
+
+public class Network implements Serializable
 {
 	
 	//Data Processing
@@ -44,7 +54,7 @@ public class Network
 			this.error_signal[i] = new double[NETWORK_LAYER_SIZES[i]];
 			this.output_derivative[i] = new double[NETWORK_LAYER_SIZES[i]];
 			
-			this.bias[i] = NetworkTools.createRandomArray(NETWORK_LAYER_SIZES[i], 0d, 1d);
+			this.bias[i] = NetworkTools.createRandomArray(NETWORK_LAYER_SIZES[i], -0.5, 0.7);
 			
 			if (i > 0)
 			{	
@@ -172,17 +182,29 @@ public class Network
 	
 	public static void main(String[] args)
 	{
-		Network net = new Network(4, 2, 2, 1);
-		
-		TrainSet set = new TrainSet(4, 1);
-		set.addData(new double[] {0.1,0.2,0.3,0.4}, new double[] {0.6});
-				
-		net.train(set, 100000, 1);
-		
-		for (int i=0; i<1; i++)
-		{
-			System.out.println(Arrays.toString(net.calculate(set.getInput(i))));
+		Network net = new Network(4,3,2);
+		try {
+			net.saveNetwork("res/test.txt");
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
+	public void saveNetwork(String file) throws Exception
+	{
+		File f = new File(file);
+		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(f));
+		out.writeObject(this);
+		out.flush();
+		out.close();
+	}
+	
+	public static Network loadNetwork(String file) throws Exception
+	{
+		File f = new File(file);
+		ObjectInputStream in = new ObjectInputStream(new FileInputStream(f));
+		Network net = (Network) in.readObject();
+		in.close();
+		return net;
+	}
 }

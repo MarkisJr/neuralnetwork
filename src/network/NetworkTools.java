@@ -1,5 +1,9 @@
 package network;
 
+/**
+ *  Made by MarkisJr. 28/07/2020
+ */
+
 public class NetworkTools {
 
     public static double[] createArray(int size, double init_value){

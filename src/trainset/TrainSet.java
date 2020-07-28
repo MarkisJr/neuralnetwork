@@ -5,6 +5,10 @@ import network.NetworkTools;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ *  Made by MarkisJr. 28/07/2020
+ */
+
 public class TrainSet {
 
     public final int INPUT_SIZE;
