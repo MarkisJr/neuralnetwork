@@ -12,15 +12,19 @@ import java.io.File;
 public class Mnist {
 
     public static void main(String[] args) {
-        Network net = new Network(784, 70, 35, 10);
-        TrainSet set = createTrainSet(0, 4999);
-        trainData(net, set, 100, 50, 100);
-        
-        TrainSet testSet = createTrainSet(0, 4999);
-        testTrainSet(net, testSet, 10);
+        try {
+			Network net = Network.loadNetwork("res/mnist1.txt");
+			TrainSet set = createTrainSet(20000, 24999);
+			
+			testTrainSet(net, set, 10);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
-    public static TrainSet createTrainSet(int start, int end) {
+    public static TrainSet createTrainSet(int start, int end) 
+    {
 
         TrainSet set = new TrainSet(28 * 28, 10);
 
@@ -55,11 +59,18 @@ public class Mnist {
          return set;
     }
 
-    public static void trainData(Network net,TrainSet set, int epochs, int loops, int batch_size) {
-        for(int e = 0; e < epochs;e++) {
+    public static void trainData(Network net,TrainSet set, int epochs, int loops, int batch_size, String output_file) {
+        for(int e = 0; e < epochs;e++) 
+        {
             net.train(set, loops, batch_size);
             System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>   "+ e +"   <<<<<<<<<<<<<<<<<<<<<<<<<<");
+            try {
+				net.saveNetwork(output_file);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
         }
+        System.out.println(">>>>>>>>>>>>>>>>>>   Finished Training   <<<<<<<<<<<<<<<<<<<");
     }
 
     public static void testTrainSet(Network net, TrainSet set, int printSteps) {

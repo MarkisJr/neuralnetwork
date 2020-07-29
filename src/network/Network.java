@@ -1,20 +1,14 @@
 package network;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.Arrays;
-
 import trainset.TrainSet;
+import parser.*;
 
 /**
  *  Made by MarkisJr. 28/07/2020
  */
 
-public class Network implements Serializable
+public class Network
 {
 	
 	//Data Processing
@@ -182,29 +176,65 @@ public class Network implements Serializable
 	
 	public static void main(String[] args)
 	{
-		Network net = new Network(4,3,2);
-		try {
-			net.saveNetwork("res/test.txt");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
 	}
 	
 	public void saveNetwork(String file) throws Exception
 	{
-		File f = new File(file);
-		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(f));
-		out.writeObject(this);
-		out.flush();
-		out.close();
+		Parser p = new Parser();
+		p.create(file);
+		
+		Node root = p.getContent();
+		Node net = new Node("Network");
+		Node ly = new Node("Layers");
+		
+		net.addAttribute(new Attribute("sizes", Arrays.toString(this.NETWORK_LAYER_SIZES)));
+		net.addChild(ly);
+		root.addChild(net);
+		
+		for (int layer=1; layer<this.NETWORK_SIZE; layer++)
+		{
+			Node c = new Node("" + layer);
+			ly.addChild(c);
+			Node w = new Node("weights");
+			Node b = new Node("biases");
+			c.addChild(w);
+			c.addChild(b);
+			
+			b.addAttribute("values", Arrays.toString(this.bias[layer]));
+			
+			for (int weigh=0; weigh<this.weights[layer].length; weigh++)
+			{
+				w.addAttribute("" + weigh, Arrays.toString(weights[layer][weigh]));
+			}
+		}
+		p.close();
 	}
 	
 	public static Network loadNetwork(String file) throws Exception
 	{
-		File f = new File(file);
-		ObjectInputStream in = new ObjectInputStream(new FileInputStream(f));
-		Network net = (Network) in.readObject();
-		in.close();
+		Parser p = new Parser();
+		
+		p.load(file);
+		String sizes = p.getValue(new String[] {"Network"}, "sizes");
+		int[] si = ParserTools.parseIntArray(sizes);
+		Network net = new Network(si);
+		
+		for (int i=1; i<net.NETWORK_SIZE; i++)
+		{
+			String biases = p.getValue(new String[] { "Network", "Layers", new String(i + ""), "biases" }, "values");
+			double[] bias = ParserTools.parseDoubleArray(biases);
+			net.bias[i] = bias;
+			
+			for (int n=0; n<net.NETWORK_LAYER_SIZES[i]; n++)
+			{
+				String current = p.getValue(new String[] { "Network", "Layers", new String(i + ""), "weights"}, "" + n);
+				double[] val = ParserTools.parseDoubleArray(current);
+				
+				net.weights[i][n] = val;
+			}
+		}
+		p.close();
 		return net;
 	}
 }
