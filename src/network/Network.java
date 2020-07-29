@@ -1,10 +1,14 @@
 package network;
 
 import java.util.Arrays;
-
 import trainset.TrainSet;
+import parser.*;
 
-public class Network 
+/**
+ *  Made by MarkisJr. 28/07/2020
+ */
+
+public class Network
 {
 	
 	//Data Processing
@@ -44,7 +48,7 @@ public class Network
 			this.error_signal[i] = new double[NETWORK_LAYER_SIZES[i]];
 			this.output_derivative[i] = new double[NETWORK_LAYER_SIZES[i]];
 			
-			this.bias[i] = NetworkTools.createRandomArray(NETWORK_LAYER_SIZES[i], 0d, 1d);
+			this.bias[i] = NetworkTools.createRandomArray(NETWORK_LAYER_SIZES[i], -0.5, 0.7);
 			
 			if (i > 0)
 			{	
@@ -172,20 +176,65 @@ public class Network
 	
 	public static void main(String[] args)
 	{
-		Network net = new Network(6, 4, 4, 2);
 		
-		TrainSet set = new TrainSet(6, 2);
-		set.addData(new double[] {0.1,0.2,0.3,0.4,0.5,0.6}, new double[] {0,1});
-		set.addData(new double[] {0.01,0.02,0.03,0.04,0.05,0.06}, new double[] {0,1});
-		set.addData(new double[] {0.5,0.72498,0.212,0.3,0.78,0.63327}, new double[] {1,1});
-		set.addData(new double[] {2,1,3,5,1,4}, new double[] {0,0.2});
-		
-		net.train(set, 100000, 4);
-		
-		for (int i=0; i<4; i++)
-		{
-			System.out.println(Arrays.toString(net.calculate(set.getInput(i))));
-		}
 	}
 	
+	public void saveNetwork(String file) throws Exception
+	{
+		Parser p = new Parser();
+		p.create(file);
+		
+		Node root = p.getContent();
+		Node net = new Node("Network");
+		Node ly = new Node("Layers");
+		
+		net.addAttribute(new Attribute("sizes", Arrays.toString(this.NETWORK_LAYER_SIZES)));
+		net.addChild(ly);
+		root.addChild(net);
+		
+		for (int layer=1; layer<this.NETWORK_SIZE; layer++)
+		{
+			Node c = new Node("" + layer);
+			ly.addChild(c);
+			Node w = new Node("weights");
+			Node b = new Node("biases");
+			c.addChild(w);
+			c.addChild(b);
+			
+			b.addAttribute("values", Arrays.toString(this.bias[layer]));
+			
+			for (int weigh=0; weigh<this.weights[layer].length; weigh++)
+			{
+				w.addAttribute("" + weigh, Arrays.toString(weights[layer][weigh]));
+			}
+		}
+		p.close();
+	}
+	
+	public static Network loadNetwork(String file) throws Exception
+	{
+		Parser p = new Parser();
+		
+		p.load(file);
+		String sizes = p.getValue(new String[] {"Network"}, "sizes");
+		int[] si = ParserTools.parseIntArray(sizes);
+		Network net = new Network(si);
+		
+		for (int i=1; i<net.NETWORK_SIZE; i++)
+		{
+			String biases = p.getValue(new String[] { "Network", "Layers", new String(i + ""), "biases" }, "values");
+			double[] bias = ParserTools.parseDoubleArray(biases);
+			net.bias[i] = bias;
+			
+			for (int n=0; n<net.NETWORK_LAYER_SIZES[i]; n++)
+			{
+				String current = p.getValue(new String[] { "Network", "Layers", new String(i + ""), "weights"}, "" + n);
+				double[] val = ParserTools.parseDoubleArray(current);
+				
+				net.weights[i][n] = val;
+			}
+		}
+		p.close();
+		return net;
+	}
 }
