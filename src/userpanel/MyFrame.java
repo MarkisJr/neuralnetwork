@@ -79,7 +79,7 @@ public class MyFrame extends JFrame
 				return true;				
 			}
 			
-			//Created thread and executes code as long as mouse is held down
+			//Creates thread and executes code as long as mouse is held down
 			private void initThread()
 			{
 				if (checkAndMark())
@@ -88,11 +88,18 @@ public class MyFrame extends JFrame
 					{
 						public void run()
 						{
-							do 
+							while (isMouseDown == true) 
 							{
-								System.out.println(">><<");
+								Point mouse = paintArea.getMousePosition();
+								
+								if (mouse == null)
+									System.out.println("Exceeding bounds");
+								else
+								{
+									
+									System.out.println(String.valueOf(mouse));
+								}
 							}
-							while (isMouseDown);
 							isRunning = false;
 						}
 					}.start();
