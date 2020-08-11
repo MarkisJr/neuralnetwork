@@ -117,7 +117,7 @@ public class Network
 		for (int i=0; i<loops; i++)
 		{
 			TrainSet batch = set.extractBatch(batch_size);
-			for (int b=0; b<batch_size; b++)
+			for (int b=0; b<batch.size(); b++)
 			{
 				this.train(batch.getInput(b), batch.getOutput(b), 0.3);
 			}
