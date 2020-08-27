@@ -1,7 +1,6 @@
 package network;
 
 import java.util.Arrays;
-import trainset.TrainSet;
 import parser.*;
 
 /**
@@ -108,7 +107,7 @@ public class Network
 		{
 			v += MSE(set.getInput(i), set.getOutput(i));
 		}
-		return v / set.size();	
+		return v / set.size();
 	}
 	
 	public void train(TrainSet set, int loops, int batch_size)

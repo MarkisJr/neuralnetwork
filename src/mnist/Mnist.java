@@ -1,18 +1,26 @@
 package mnist;
 
-import network.Network;
-import network.NetworkTools;
-import trainset.TrainSet;
+import network.*;
 
 import java.io.File;
 
 /**
- * Created by Luecx on 10.08.2017.
+ * Created by MarkisJr. 13/07/2020
  */
 public class Mnist {
 
-    public static void main(String[] args) {
-        try {
+    public static void main(String[] args) 
+    {
+//    	Network net = new Network(784, 75, 30, 10);
+//    	TrainSet set = createTrainSet(30000, 34999);
+//    	TrainSet test = createTrainSet(5000, 9999);
+//    	
+//    	trainData(net, set, 100, 50, 100, "test.txt");
+//    	
+//    	testTrainSet(net, test, 100);
+    	
+    	
+    	        try {
 			Network net = Network.loadNetwork("res/mnist1.txt");
 			TrainSet set = createTrainSet(20000, 24999);
 			
@@ -59,7 +67,8 @@ public class Mnist {
          return set;
     }
 
-    public static void trainData(Network net,TrainSet set, int epochs, int loops, int batch_size, String output_file) {
+    public static void trainData(Network net,TrainSet set, int epochs, int loops, int batch_size, String output_file) 
+    {
         for(int e = 0; e < epochs;e++) 
         {
             net.train(set, loops, batch_size);
@@ -73,15 +82,19 @@ public class Mnist {
         System.out.println(">>>>>>>>>>>>>>>>>>   Finished Training   <<<<<<<<<<<<<<<<<<<");
     }
 
-    public static void testTrainSet(Network net, TrainSet set, int printSteps) {
+    public static void testTrainSet(Network net, TrainSet set, int printSteps) 
+    {
         int correct = 0;
-        for(int i = 0; i < set.size(); i++) {
+        for(int i = 0; i < set.size(); i++) 
+        {
             double highest = NetworkTools.indexOfHighestValue(net.calculate(set.getInput(i)));
             double actualHighest = NetworkTools.indexOfHighestValue(set.getOutput(i));
-            if(highest == actualHighest) {
+            if(highest == actualHighest) 
+            {
                 correct ++ ;
             }
-            if(i % printSteps == 0) {
+            if(i % printSteps == 0) 
+            {
                 System.out.println(i + ": " + (double)correct / (double) (i + 1));
             }
         }

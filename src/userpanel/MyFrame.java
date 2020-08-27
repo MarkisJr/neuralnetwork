@@ -1,8 +1,8 @@
 package userpanel;
 
 import network.*;
-import trainset.*;
 import mnist.Mnist;
+import java.util.Arrays;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -12,7 +12,7 @@ import java.awt.event.MouseListener;
  *  Made by MarkisJr. 28/07/2020
  */
 
-public class MyFrame extends JFrame
+public class MyFrame extends JFrame 
 {
 	private static final long serialVersionUID = 1L;
 	
@@ -22,6 +22,9 @@ public class MyFrame extends JFrame
 	private final JPanel bottomPanel;
 	private final JPanel paintArea;
 	private final JLabel output;
+	
+	//Pixel parser
+	double[][] pixel = new double[24][24];
 	
 	public MyFrame()
 	{
@@ -51,15 +54,14 @@ public class MyFrame extends JFrame
 			
 			@Override
 			public void mousePressed(MouseEvent e) {
-				System.out.println("Mouse was pressed...");
 				isMouseDown = true;
 				initThread();
 			}
 			
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				System.out.println("Mouse was released...");
 				isMouseDown = false;
+				System.out.println(Arrays.deepToString(pixel).replace("],", "]\n").replace("1.0", " x "));
 			}
 			
 			//Unneeded methods required to remain
@@ -87,7 +89,7 @@ public class MyFrame extends JFrame
 					new Thread()
 					{
 						public void run()
-						{
+						{	
 							while (isMouseDown == true) 
 							{
 								Point mouse = paintArea.getMousePosition();
@@ -96,8 +98,12 @@ public class MyFrame extends JFrame
 									System.out.println("Exceeding bounds");
 								else
 								{
+									int xVal = (int) Math.floor(mouse.getX() / 10d);
+									int yVal = (int) Math.floor(mouse.getY() / 10d);
 									
-									System.out.println(String.valueOf(mouse));
+									System.out.println("Pixel X: " + xVal + " Pixel Y: " + yVal);
+									
+									pixel[xVal][yVal] = 1d;
 								}
 							}
 							isRunning = false;
@@ -124,7 +130,7 @@ public class MyFrame extends JFrame
 		//Packs data for Runnable() class
 		pack();
 	}
-	
+
 	public static void main(String[] args)
 	{
 		EventQueue.invokeLater(new Runnable()
