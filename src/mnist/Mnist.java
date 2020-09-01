@@ -1,7 +1,6 @@
 package mnist;
 
 import network.*;
-
 import java.io.File;
 
 /**
