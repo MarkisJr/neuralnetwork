@@ -5,6 +5,8 @@ import mnist.Mnist;
 import java.util.Arrays;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -22,6 +24,7 @@ public class MyFrame extends JFrame
 	private final JPanel bottomPanel;
 	private final JPanel paintArea;
 	private final JLabel output;
+	private final JButton button;
 	
 	//Pixel parser
 	double[][] pixel = new double[24][24];
@@ -34,6 +37,7 @@ public class MyFrame extends JFrame
 		bottomPanel = new JPanel();
 		paintArea = new JPanel();
 		output = new JLabel();
+		button = new JButton();
 		
 		//Configuring splitpane
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
@@ -116,9 +120,29 @@ public class MyFrame extends JFrame
 		//Configuring bottomPanel
 		bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
 		bottomPanel.add(output);
+		bottomPanel.add(button);
 		output.setAlignmentX(Component.CENTER_ALIGNMENT);
+		output.setText("00.0");
 		
-		output.setText("99.9");
+		button.setAlignmentX(Component.CENTER_ALIGNMENT);
+		button.setMinimumSize(new Dimension(80,40));
+		button.setText("Reset");
+		button.addActionListener(new ActionListener() 
+		{
+			
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
+				for (int x=0; x<24; x++)
+				{
+					for (int y=0; y<24; y++)
+					{
+						pixel[x][y] = 0d;
+					}
+				}
+				System.out.println(Arrays.deepToString(pixel).replace("],", "]\n").replace("1.0", " x "));
+			}
+		});
 		
 		//Window dimensions and layout
 		setPreferredSize(new Dimension(250, 400));
