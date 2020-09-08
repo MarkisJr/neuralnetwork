@@ -30,7 +30,9 @@ public class MyFrame extends JFrame
 	private final JButton button;
 	
 	//Pixel parser
-	double[][] pixel = new double[24][24];
+	double[][] pixel = new double[28][28];
+	static double certainty = 0d;
+	
 	public MyFrame()
 	{
 		//Variable declaration
@@ -43,7 +45,7 @@ public class MyFrame extends JFrame
 		
 		//Configuring splitpane
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		splitPane.setDividerLocation(240);
+		splitPane.setDividerLocation(280);
 		splitPane.setTopComponent(topPanel);
 		splitPane.setBottomComponent(bottomPanel);
 		splitPane.setDividerSize(0);
@@ -51,8 +53,8 @@ public class MyFrame extends JFrame
 		//Configuring topPanel
 		topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
 		topPanel.add(paintArea);
-		paintArea.setPreferredSize(new Dimension(240,240));
-		paintArea.setMaximumSize(new Dimension(240,240));
+		paintArea.setPreferredSize(new Dimension(280,280));
+		paintArea.setMaximumSize(new Dimension(280,280));
 		paintArea.setBackground(Color.DARK_GRAY);
 		paintArea.addMouseListener(new MouseListener() {
 			
@@ -138,7 +140,8 @@ public class MyFrame extends JFrame
 				try 
 				{
 					Network net = Network.loadNetwork("res/mnist1.txt");
-					output.setText(String.valueOf(test(net, pack(pixel))));
+					System.out.println(test(net, pack(pixel)));
+					System.out.println(certainty);
 				} 
 				catch (Exception e1) 
 				{
@@ -148,7 +151,7 @@ public class MyFrame extends JFrame
 		});
 		
 		//Window dimensions and layout
-		setPreferredSize(new Dimension(250, 400));
+		setPreferredSize(new Dimension(292, 400));
 		getContentPane().setLayout(new GridLayout());
 		getContentPane().add(splitPane);
 		setResizable(false);
@@ -176,14 +179,16 @@ public class MyFrame extends JFrame
 		{
 			output[i] = list.get(i);
 		}
-		
 		return output;
 	}
 	
 	//Sends array off neural network
 	public static double test(Network net, double[] input) 
     {
-        double answer = NetworkTools.indexOfHighestValue(net.calculate(input));
+		double[] temp = net.calculate(input);
+		double answer = NetworkTools.indexOfHighestValue(temp);
+		certainty = NetworkTools.highestValue(input);
+		
         return answer;
     }
 
