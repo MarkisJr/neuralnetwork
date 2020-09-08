@@ -1,7 +1,7 @@
 package userpanel;
 
 import network.*;
-import mnist.Mnist;
+import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.*;
 import java.awt.*;
@@ -28,6 +28,7 @@ public class MyFrame extends JFrame
 	
 	//Pixel parser
 	double[][] pixel = new double[24][24];
+	Network net = new Network(784, 70, 35, 10);
 	
 	public MyFrame()
 	{
@@ -65,7 +66,6 @@ public class MyFrame extends JFrame
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				isMouseDown = false;
-				System.out.println(Arrays.deepToString(pixel).replace("],", "]\n").replace("1.0", " x "));
 			}
 			
 			//Unneeded methods required to remain
@@ -106,8 +106,9 @@ public class MyFrame extends JFrame
 									int yVal = (int) Math.floor(mouse.getY() / 10d);
 									
 									System.out.println("Pixel X: " + xVal + " Pixel Y: " + yVal);
-									
 									pixel[xVal][yVal] = 1d;
+									
+									
 								}
 							}
 							isRunning = false;
@@ -140,7 +141,6 @@ public class MyFrame extends JFrame
 						pixel[x][y] = 0d;
 					}
 				}
-				System.out.println(Arrays.deepToString(pixel).replace("],", "]\n").replace("1.0", " x "));
 			}
 		});
 		
@@ -154,6 +154,26 @@ public class MyFrame extends JFrame
 		//Packs data for Runnable() class
 		pack();
 	}
+	
+	public static double[] pack(double[][] input)
+	{
+		ArrayList<double[][]> list = new ArrayList<>();
+		
+		for (int i=0; i<input.length; i++)
+		{
+			for (int j=0; j<input[i].length; j++)
+			{
+				list.add(input[i][j]);
+			}
+		}
+		return null;
+	}
+	
+	public static double test(Network net, double[] input) 
+    {
+        double answer = NetworkTools.indexOfHighestValue(net.calculate(input));
+        return answer;
+    }
 
 	public static void main(String[] args)
 	{

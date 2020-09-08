@@ -10,24 +10,7 @@ public class Mnist {
 
     public static void main(String[] args) 
     {
-//    	Network net = new Network(784, 75, 30, 10);
-//    	TrainSet set = createTrainSet(30000, 34999);
-//    	TrainSet test = createTrainSet(5000, 9999);
-//    	
-//    	trainData(net, set, 100, 50, 100, "test.txt");
-//    	
-//    	testTrainSet(net, test, 100);
     	
-    	
-    	        try {
-			Network net = Network.loadNetwork("res/mnist1.txt");
-			TrainSet set = createTrainSet(20000, 24999);
-			
-			testTrainSet(net, set, 10);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
     }
 
     public static TrainSet createTrainSet(int start, int end) 
@@ -35,14 +18,15 @@ public class Mnist {
 
         TrainSet set = new TrainSet(28 * 28, 10);
 
-        try {
-
+        try 
+        {
             String path = new File("").getAbsolutePath();
 
             MnistImageFile m = new MnistImageFile(path + "/res/trainImage.idx3-ubyte", "rw");
             MnistLabelFile l = new MnistLabelFile(path + "/res/trainLabel.idx1-ubyte", "rw");
 
-            for(int i = start; i <= end; i++) {
+            for(int i = start; i <= end; i++) 
+            {
                 if(i % 100 ==  0){
                     System.out.println("prepared: " + i);
                 }
@@ -59,7 +43,8 @@ public class Mnist {
                 m.next();
                 l.next();
             }
-        } catch (Exception e) {
+        } catch (Exception e) 
+        {
             e.printStackTrace();
         }
 
@@ -72,7 +57,8 @@ public class Mnist {
         {
             net.train(set, loops, batch_size);
             System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>   "+ e +"   <<<<<<<<<<<<<<<<<<<<<<<<<<");
-            try {
+            try 
+            {
 				net.saveNetwork(output_file);
 			} catch (Exception e1) {
 				e1.printStackTrace();
@@ -97,6 +83,6 @@ public class Mnist {
                 System.out.println(i + ": " + (double)correct / (double) (i + 1));
             }
         }
-        System.out.println("Testing finished, RESULT: " + correct + " / " + set.size()+ "  -> " + (double)correct / (double)set.size()*100 +" %");
+        System.out.println("Testing finished, RESULT: " + correct + " / " + set.size() + "  -> " + (double)correct / (double)set.size()*100 + " %");
     }
 }
