@@ -4,6 +4,9 @@ import network.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.*;
+
+import jdk.nashorn.internal.ir.CatchNode;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,8 +31,6 @@ public class MyFrame extends JFrame
 	
 	//Pixel parser
 	double[][] pixel = new double[24][24];
-	Network net = new Network(784, 70, 35, 10);
-	
 	public MyFrame()
 	{
 		//Variable declaration
@@ -127,19 +128,21 @@ public class MyFrame extends JFrame
 		
 		button.setAlignmentX(Component.CENTER_ALIGNMENT);
 		button.setMinimumSize(new Dimension(80,40));
-		button.setText("Reset");
+		button.setText("Calculate");
 		button.addActionListener(new ActionListener() 
 		{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				for (int x=0; x<24; x++)
+				try 
 				{
-					for (int y=0; y<24; y++)
-					{
-						pixel[x][y] = 0d;
-					}
+					Network net = Network.loadNetwork("res/mnist1.txt");
+					output.setText(String.valueOf(test(net, pack(pixel))));
+				} 
+				catch (Exception e1) 
+				{
+					e1.printStackTrace();
 				}
 			}
 		});
@@ -155,9 +158,10 @@ public class MyFrame extends JFrame
 		pack();
 	}
 	
+	//Packs 2d array into a 1d array
 	public static double[] pack(double[][] input)
 	{
-		ArrayList<double[][]> list = new ArrayList<>();
+		ArrayList<Double> list = new ArrayList<Double>();
 		
 		for (int i=0; i<input.length; i++)
 		{
@@ -166,15 +170,24 @@ public class MyFrame extends JFrame
 				list.add(input[i][j]);
 			}
 		}
-		return null;
+		
+		double[] output = new double[list.size()];
+		for (int i=0; i<list.size(); i++)
+		{
+			output[i] = list.get(i);
+		}
+		
+		return output;
 	}
 	
+	//Sends array off neural network
 	public static double test(Network net, double[] input) 
     {
         double answer = NetworkTools.indexOfHighestValue(net.calculate(input));
         return answer;
     }
 
+	//Default main method
 	public static void main(String[] args)
 	{
 		EventQueue.invokeLater(new Runnable()
