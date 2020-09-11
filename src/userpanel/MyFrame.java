@@ -2,11 +2,8 @@ package userpanel;
 
 import network.*;
 import java.util.ArrayList;
-import java.util.Arrays;
+//import java.util.Arrays;
 import javax.swing.*;
-
-import jdk.nashorn.internal.ir.CatchNode;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,11 +24,14 @@ public class MyFrame extends JFrame
 	private final JPanel bottomPanel;
 	private final JPanel paintArea;
 	private final JLabel output;
-	private final JButton button;
+	private final JButton calculate;
+	private final JButton reset;
 	
 	//Pixel parser
 	double[][] pixel = new double[28][28];
-	static double certainty = 0d;
+	
+	//Button state
+	boolean isClicked = false;
 	
 	public MyFrame()
 	{
@@ -41,7 +41,8 @@ public class MyFrame extends JFrame
 		bottomPanel = new JPanel();
 		paintArea = new JPanel();
 		output = new JLabel();
-		button = new JButton();
+		calculate = new JButton();
+		reset = new JButton();
 		
 		//Configuring splitpane
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
@@ -108,8 +109,7 @@ public class MyFrame extends JFrame
 									int xVal = (int) Math.floor(mouse.getX() / 10d);
 									int yVal = (int) Math.floor(mouse.getY() / 10d);
 									
-									System.out.println("Pixel X: " + xVal + " Pixel Y: " + yVal);
-									pixel[xVal][yVal] = 1d;
+									pixel[xVal][yVal] = 0.98828125;
 									
 									
 								}
@@ -124,28 +124,55 @@ public class MyFrame extends JFrame
 		//Configuring bottomPanel
 		bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
 		bottomPanel.add(output);
-		bottomPanel.add(button);
+		bottomPanel.add(calculate);
+		bottomPanel.add(reset);
 		output.setAlignmentX(Component.CENTER_ALIGNMENT);
 		output.setText("00.0");
 		
-		button.setAlignmentX(Component.CENTER_ALIGNMENT);
-		button.setMinimumSize(new Dimension(80,40));
-		button.setText("Calculate");
-		button.addActionListener(new ActionListener() 
+		calculate.setAlignmentX(Component.CENTER_ALIGNMENT);
+		calculate.setMinimumSize(new Dimension(80,40));
+		calculate.setText("Calculate");
+		calculate.addActionListener(new ActionListener() 
 		{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
+				calculate.setEnabled(false);
+				reset.setEnabled(true);
+				
 				try 
 				{
 					Network net = Network.loadNetwork("res/mnist1.txt");
-					System.out.println(test(net, pack(pixel)));
-					System.out.println(certainty);
+					System.out.println("The Value is: " + test(net, pack(pixel)));
+					
 				} 
 				catch (Exception e1) 
 				{
 					e1.printStackTrace();
+				}
+			}
+		});
+		
+		reset.setEnabled(false);
+		reset.setAlignmentX(Component.CENTER_ALIGNMENT);
+		reset.setMinimumSize(new Dimension(80,40));
+		reset.setText("Reset");
+		reset.addActionListener(new ActionListener() 
+		{
+			
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
+				calculate.setEnabled(true);
+				reset.setEnabled(false);
+				
+				for (int i=0; i<pixel.length; i++)
+				{
+					for (int j=0; j<pixel[i].length; j++)
+					{
+						pixel[i][j] = 0d;
+					}
 				}
 			}
 		});
@@ -187,7 +214,8 @@ public class MyFrame extends JFrame
     {
 		double[] temp = net.calculate(input);
 		double answer = NetworkTools.indexOfHighestValue(temp);
-		certainty = NetworkTools.highestValue(input);
+		double certainty = NetworkTools.highestValue(temp)*100d;
+		System.out.println(certainty + "% certain");
 		
         return answer;
     }

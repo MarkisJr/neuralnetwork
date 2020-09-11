@@ -2,6 +2,9 @@ package mnist;
 
 import network.*;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * Created by MarkisJr. 13/07/2020
@@ -10,10 +13,11 @@ public class Mnist {
 
     public static void main(String[] args) 
     {
-    	
+    	test();
     }
 
-    public static TrainSet createTrainSet(int start, int end) 
+    @SuppressWarnings("resource")
+	public static TrainSet createTrainSet(int start, int end) 
     {
 
         TrainSet set = new TrainSet(28 * 28, 10);
@@ -49,6 +53,25 @@ public class Mnist {
         }
 
          return set;
+    }
+    
+    public static void test()
+    {
+    	try 
+    	{
+    		double[] input = new double[28 * 28];
+    		String path = new File("").getAbsolutePath();
+			MnistImageFile m = new MnistImageFile(path + "/res/trainImage.idx3-ubyte", "rw");
+			for(int j = 0; j < 28*28; j++){
+                input[j] = (double)m.read() / (double)256;
+            }
+			System.out.println(Arrays.toString(input));
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
     }
 
     public static void trainData(Network net,TrainSet set, int epochs, int loops, int batch_size, String output_file) 
