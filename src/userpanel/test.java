@@ -1,29 +1,39 @@
 package userpanel;
 
-public class test 
-{
+import java.awt.*;
+import javax.swing.*;
 
-	public static void main(String[] args) 
+public class test extends JFrame
+{
+	private JPanel test;
+	private Drawing draw;
+	
+	public test()
 	{
-		// TODO Auto-generated method stub
+		test = new JPanel();
+		test.add(draw);
 		
-		
-		double[] i = {0.12312123, 0.6543532423, 0.54534534, 0.987856456};
-		
-		double test = highestValue(i);
-		
-		System.out.println(test);
+		pack();
 	}
 	
-	public static double highestValue(double[] values)
-    {
-    	double max = 0d;
-    	for (int i = 0; i < values.length; i++)
-    	{
-    		if (values[i] > max)
-    			max = values[i];
-    	}
-    	return max;
-    }
+	public static void main(String[] args)
+	{
+		EventQueue.invokeLater(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				new test().setVisible(true);
+			}
+		});
+	}
+}
 
+class Drawing extends JPanel
+{
+	public Drawing()
+	{
+		setPreferredSize(new Dimension(200,200));
+		setBackground(Color.RED);
+	}
 }
