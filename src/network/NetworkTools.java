@@ -1,12 +1,14 @@
 package network;
 
-/**
- *  Made by MarkisJr. 28/07/2020
+/*
+ *  Made by MarkisJr. 1/08/2020
+ *  Class serves to store useful methods for Network class or addons
  */
 
 public class NetworkTools 
 {
-
+	
+	//Used by Network class to create an array for the neural layers
     public static double[] createArray(int size, double init_value)
     {
         if(size < 1)
@@ -21,6 +23,7 @@ public class NetworkTools
         return ar;
     }
 
+    //Used by Network class to create a 1D randomly seeded array for the neural layers
     public static double[] createRandomArray(int size, double lower_bound, double upper_bound)
     {
         if(size < 1)
@@ -35,6 +38,7 @@ public class NetworkTools
         return ar;
     }
 
+    //Used by Network class to create a 2D randomly seeded array for the neural layers
     public static double[][] createRandomArray(int sizeX, int sizeY, double lower_bound, double upper_bound)
     {
         if(sizeX < 1 || sizeY < 1)
@@ -48,11 +52,13 @@ public class NetworkTools
         return ar;
     }
 
+    //Purely serves as an RNG method, can be used for anything
     public static double randomValue(double lower_bound, double upper_bound)
     {
         return Math.random()*(upper_bound-lower_bound) + lower_bound;
     }
 
+    //Returns Integer array seeded with random values
     public static Integer[] randomValues(int lowerBound, int upperBound, int amount) 
     {
 
@@ -76,6 +82,7 @@ public class NetworkTools
         return values;
     }
 
+    //Checks if array contains specified value, unused
     public static <T extends Comparable<T>> boolean containsValue(T[] ar, T value)
     {
         for(int i = 0; i < ar.length; i++)
@@ -91,6 +98,7 @@ public class NetworkTools
         return false;
     }
 
+    //Returns the index number of highest value (e.g. winning number)
     public static int indexOfHighestValue(double[] values)
     {
         int index = 0;
@@ -104,6 +112,7 @@ public class NetworkTools
         return index;
     }
     
+    //Returns the highest number (e.g. 0.9981231231)
     public static double highestValue(double[] values)
     {
     	double max = 0d;
