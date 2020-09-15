@@ -3,8 +3,9 @@ package network;
 import java.util.Arrays;
 import parser.*;
 
-/**
+/*
  *  Made by MarkisJr. 28/07/2020
+ *  Core of the ANN
  */
 
 public class Network
@@ -14,10 +15,12 @@ public class Network
 	private double[][]   output;
 	//weights[layer][neuron][prevNeuron]
 	private double[][][] weights;
+	//bias[prevNeuron][nextNeuron]
 	private double[][]   bias;
 	
-	private double[][] error_signal;
-	private double[][] output_derivative;
+	//[layer][neuron] variables used for correcting itself and learning
+	private double[][]   error_signal;
+	private double[][]   output_derivative;
 	
 	//Network variables
 	public final int[] NETWORK_LAYER_SIZES;
@@ -25,7 +28,7 @@ public class Network
 	public final int   OUTPUT_SIZE;
 	public final int   NETWORK_SIZE;
 	
-	//Defining variables in network
+	//Defining variables in network when initialized
 	public Network(int... NETWORK_LAYER_SIZES) 
 	{
 		this.NETWORK_LAYER_SIZES = NETWORK_LAYER_SIZES;
@@ -40,6 +43,7 @@ public class Network
 		this.error_signal = new double[NETWORK_SIZE][];
 		this.output_derivative = new double[NETWORK_SIZE][];
 		
+		//Sets up neurons in scale and seeds bias and weights with random values
 		for (int i=0; i<NETWORK_SIZE; i++)
 		{
 			this.output[i] = new double[NETWORK_LAYER_SIZES[i]];
@@ -56,6 +60,7 @@ public class Network
 		}
 	}
 	
+	//Core function of the ANN, calculates answers and trains
 	public double[] calculate(double... input)
 	{
 		if (input.length != this.INPUT_SIZE)
@@ -83,11 +88,13 @@ public class Network
 		return output[NETWORK_SIZE-1];
 	}
 	
+	//Math function
 	private double sigmoid(double x)
 	{
 		return 1d / (1 + Math.exp(-x));
 	}
 	
+	//Instructs the network what to aim for during learning process (desired result)
 	public double MSE(double[] input, double[] target)
 	{
 		if(input.length != INPUT_SIZE || target.length != OUTPUT_SIZE) return 0;
@@ -100,6 +107,7 @@ public class Network
 		return v / (2d * target.length);
 	}
 	
+	//Parses a trainset to be compatible with MSE
 	public double MSE(TrainSet set)
 	{
 		double v =0;
@@ -110,6 +118,7 @@ public class Network
 		return v / set.size();
 	}
 	
+	//Parses trainset to be compatible with training
 	public void train(TrainSet set, int loops, int batch_size)
 	{
 		if (set.INPUT_SIZE != INPUT_SIZE || set.OUTPUT_SIZE != OUTPUT_SIZE) return;
@@ -124,6 +133,7 @@ public class Network
 		}
 	}
 	
+	//Sends data to respective methods when training
 	public void train(double[] input, double[] target, double rate)
 	{
 		if (input.length != INPUT_SIZE || target.length != OUTPUT_SIZE)
@@ -135,6 +145,7 @@ public class Network
 		updateWeights(rate);
 	}
 	
+	//Calculates need for changes based on error by taking the derivative of the neurons error rate
 	public void backPropError(double[] target)
 	{
 		for (int neuron=0; neuron<NETWORK_LAYER_SIZES[NETWORK_SIZE-1]; neuron++)
@@ -156,6 +167,7 @@ public class Network
 		}
 	}
 	
+	//Changes weights depending on learning rate
 	public void updateWeights(double rate)
 	{
 		for (int layer=1; layer<NETWORK_SIZE; layer++)
@@ -173,13 +185,10 @@ public class Network
 		}
 	}
 	
-	public static void main(String[] args)
-	{
-		
-	}
-	
+	//Allows the ANN to save all weights and learned data
 	public void saveNetwork(String file) throws Exception
 	{
+		//Parser class is important for parsing all data into relevent strings to be written to specified file. Serialization does not work as it relies off an unreliable ID based system
 		Parser p = new Parser();
 		p.create(file);
 		
@@ -210,6 +219,7 @@ public class Network
 		p.close();
 	}
 	
+	//Allow the ANN to load any previous weights and data
 	public static Network loadNetwork(String file) throws Exception
 	{
 		Parser p = new Parser();
