@@ -23,7 +23,7 @@ public class MyFrame extends JFrame
 	private final JPanel topPanel;
 	private final JPanel bottomPanel;
 	private final JPanel paintArea;
-	private final JLabel output;
+	private static JLabel output;
 	private final JButton calculate;
 	private final JButton reset;
 	
@@ -98,17 +98,23 @@ public class MyFrame extends JFrame
 					{
 						public void run()
 						{	
+							//Runs while mouse is down
 							while (isMouseDown == true) 
 							{
+								//Gets mouse location relative to the paint area
 								Point mouse = paintArea.getMousePosition();
 								
+								//Debug
 								if (mouse == null)
 									System.out.println("Exceeding bounds");
+								//Executes stuff is drawn
 								else
 								{
+									//Gets what pixel the mouse is in relative to the 28x28 pixel grid system
 									int xVal = (int) Math.floor(mouse.getX() / 10d);
 									int yVal = (int) Math.floor(mouse.getY() / 10d);
 									
+									//Sets the pixel that was clicked to "coloured", the constant 0.98828125 is used as the ANN never expects 1.0 as it is too "perfect"
 									pixel[xVal][yVal] = 0.98828125;
 									
 									
@@ -144,8 +150,7 @@ public class MyFrame extends JFrame
 				try 
 				{
 					Network net = Network.loadNetwork("res/mnist1.txt");
-					System.out.println("The Value is: " + test(net, pack(pixel)));
-					
+					test(net, pack(pixel));					
 				} 
 				catch (Exception e1) 
 				{
@@ -210,13 +215,11 @@ public class MyFrame extends JFrame
 	}
 	
 	//Sends array off neural network
-	public static double test(Network net, double[] input) 
+	public static void test(Network net, double[] input) 
     {
 		double[] temp = net.calculate(input);
 		double answer = NetworkTools.indexOfHighestValue(temp);
-		System.out.println(NetworkTools.graphResults(temp));
-		
-        return answer;
+		output.setText(String.valueOf(Math.round(NetworkTools.highestValue(temp) * 10000d) / 100d) + "% it's " + String.valueOf(answer));
     }
 	
 
