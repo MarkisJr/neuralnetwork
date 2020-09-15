@@ -2,7 +2,6 @@ package userpanel;
 
 import network.*;
 import java.util.ArrayList;
-//import java.util.Arrays;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -29,13 +28,11 @@ public class MyFrame extends JFrame
 	
 	//Pixel parser
 	double[][] pixel = new double[28][28];
-	
-	//Button state
-	boolean isClicked = false;
-	
+		
+	//Method called on class reference
 	public MyFrame()
 	{
-		//Variable declaration
+		//Variable init
 		splitPane = new JSplitPane();
 		topPanel = new JPanel();
 		bottomPanel = new JPanel();
@@ -133,8 +130,9 @@ public class MyFrame extends JFrame
 		bottomPanel.add(calculate);
 		bottomPanel.add(reset);
 		output.setAlignmentX(Component.CENTER_ALIGNMENT);
-		output.setText("00.0");
+		output.setText("Please Draw a Value");
 		
+		//Sends drawing to ANN and calls test method
 		calculate.setAlignmentX(Component.CENTER_ALIGNMENT);
 		calculate.setMinimumSize(new Dimension(80,40));
 		calculate.setText("Calculate");
@@ -159,6 +157,7 @@ public class MyFrame extends JFrame
 			}
 		});
 		
+		//Reset button code, clears 2d array of previous drawing and toggles buttons
 		reset.setEnabled(false);
 		reset.setAlignmentX(Component.CENTER_ALIGNMENT);
 		reset.setMinimumSize(new Dimension(80,40));
@@ -171,6 +170,8 @@ public class MyFrame extends JFrame
 			{
 				calculate.setEnabled(true);
 				reset.setEnabled(false);
+				
+				output.setText("Please Draw a Value");
 				
 				for (int i=0; i<pixel.length; i++)
 				{
@@ -217,15 +218,24 @@ public class MyFrame extends JFrame
 	//Sends array off neural network
 	public static void test(Network net, double[] input) 
     {
+		//Temporary values
 		double[] temp = net.calculate(input);
 		double answer = NetworkTools.indexOfHighestValue(temp);
-		output.setText(String.valueOf(Math.round(NetworkTools.highestValue(temp) * 10000d) / 100d) + "% it's " + String.valueOf(answer));
+		
+		//Due to the fact that the ANN is loaded from a predetermined "memory", if all of the inputs fed into the ANN are 0.0, it will always return the same value, 97.337% sure it's a 5
+		//While it would be better coding practice to check if the 2d array was completely filled with 0.0, I wanted to demonstrate the still computer like "exactness" of the ANN
+		if ((NetworkTools.highestValue(temp) == 0.9733711842294354) && (answer == 5d))
+			output.setText("Please Draw a Number");
+		//Actual result
+		else
+			output.setText(String.valueOf(Math.round(NetworkTools.highestValue(temp) * 10000d) / 100d) + "% it's " + String.valueOf(answer));
     }
 	
 
 	//Default main method
 	public static void main(String[] args)
 	{
+		//Runs the MyFrame class, initializing all visual components
 		EventQueue.invokeLater(new Runnable()
 		{
 			@Override
