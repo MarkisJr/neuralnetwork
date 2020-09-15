@@ -55,25 +55,6 @@ public class Mnist {
          return set;
     }
     
-    public static void test()
-    {
-    	try 
-    	{
-    		double[] input = new double[28 * 28];
-    		String path = new File("").getAbsolutePath();
-			MnistImageFile m = new MnistImageFile(path + "/res/trainImage.idx3-ubyte", "rw");
-			for(int j = 0; j < 28*28; j++){
-                input[j] = (double)m.read() / (double)256;
-            }
-			System.out.println(Arrays.toString(input));
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	
-    }
-
     public static void trainData(Network net,TrainSet set, int epochs, int loops, int batch_size, String output_file) 
     {
         for(int e = 0; e < epochs;e++) 
