@@ -214,8 +214,7 @@ public class MyFrame extends JFrame
     {
 		double[] temp = net.calculate(input);
 		double answer = NetworkTools.indexOfHighestValue(temp);
-		double certainty = NetworkTools.highestValue(temp)*100d;
-		System.out.println(certainty + "% certain");
+		System.out.println(NetworkTools.graphResults(temp));
 		
         return answer;
     }

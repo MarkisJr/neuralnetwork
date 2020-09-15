@@ -114,4 +114,25 @@ public class NetworkTools
     	}
     	return max;
     }
+    
+    public static String graphResults(double[] values)
+    {
+    	String finalGraph = "";
+    	String[] graph = new String[11];
+    	for (int i=0; i<values.length; i++)
+    	{
+    		double lines = 0d;
+    		lines = Math.floor(values[i]*10d);
+    		for (int j=0; j<lines; i++)
+    		{
+    			graph[i] += "#";
+    		}
+    	}
+    	for (int i=0; i<values.length; i++)
+    	{
+    		finalGraph += "[" + i+1 + "]: " + graph[i] + " " + Math.round(values[i]*100d) + "%\n";
+    	}
+    	
+    	return finalGraph;
+    }
 }

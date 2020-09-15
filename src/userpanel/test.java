@@ -18,14 +18,7 @@ public class test extends JFrame
 	
 	public static void main(String[] args)
 	{
-		EventQueue.invokeLater(new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				new test().setVisible(true);
-			}
-		});
+		System.out.println(Math.round(87.1235123));
 	}
 }
 
