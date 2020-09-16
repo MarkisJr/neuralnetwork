@@ -19,7 +19,8 @@ public class Parser
 	{
 		this.fileName = file;
 		String data = "<MainContent>";
-		InputStream in = getClass().getResourceAsStream(file);
+		ClassLoader cl = getClass().getClassLoader();
+		InputStream in = cl.getResourceAsStream(file);
 		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 		String line;
 		while((line = reader.readLine())!= null)
