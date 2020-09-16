@@ -1,11 +1,12 @@
 package parser;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
 /*
- * Made by Finn Eggers
+ * Made by MarkisJr. 15/08/2020
  */
 
 public class Parser 
@@ -18,7 +19,8 @@ public class Parser
 	{
 		this.fileName = file;
 		String data = "<MainContent>";
-		BufferedReader reader = new BufferedReader(new FileReader (file));
+		InputStream in = getClass().getResourceAsStream(file);
+		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 		String line;
 		while((line = reader.readLine())!= null)
 		{

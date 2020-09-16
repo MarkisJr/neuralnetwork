@@ -147,7 +147,7 @@ public class MyFrame extends JFrame
 				
 				try 
 				{
-					Network net = Network.loadNetwork("data/mnist1.txt");
+					Network net = Network.loadNetwork("/mnist1.txt");
 					test(net, pack(pixel));					
 				} 
 				catch (Exception e1) 
