@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-/**
+/*
  *  Made by MarkisJr. 28/07/2020
  */
 
@@ -21,13 +21,13 @@ public class MyFrame extends JFrame
 	private final JSplitPane splitPane;
 	private final JPanel topPanel;
 	private final JPanel bottomPanel;
-	private final JPanel paintArea;
-	private static JLabel output;
+	private final DrawingSpace paintArea;
+	public static JLabel output;
 	private final JButton calculate;
 	private final JButton reset;
 	
 	//Pixel parser
-	double[][] pixel = new double[28][28];
+	public static double[][] pixel = new double[28][28];
 		
 	//Method called on class reference
 	public MyFrame()
@@ -36,7 +36,7 @@ public class MyFrame extends JFrame
 		splitPane = new JSplitPane();
 		topPanel = new JPanel();
 		bottomPanel = new JPanel();
-		paintArea = new JPanel();
+		paintArea = new DrawingSpace();
 		output = new JLabel();
 		calculate = new JButton();
 		reset = new JButton();
@@ -50,83 +50,7 @@ public class MyFrame extends JFrame
 		
 		//Configuring topPanel
 		topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
-		topPanel.add(paintArea);
-		paintArea.setPreferredSize(new Dimension(280,280));
-		paintArea.setMaximumSize(new Dimension(280,280));
-		paintArea.setBackground(Color.DARK_GRAY);
-		paintArea.addMouseListener(new MouseListener() {
-			
-			volatile private boolean isMouseDown = false;
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				isMouseDown = true;
-				initThread();
-			}
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				isMouseDown = false;
-			}
-			
-			//Unneeded methods required to remain
-			@Override public void mouseExited(MouseEvent e){}
-			@Override public void mouseEntered(MouseEvent e){}
-			@Override public void mouseClicked(MouseEvent e){}
-			
-			//State of thread
-			volatile private boolean isRunning = false;
-			
-			//Checks if there is already a new thread in existence
-			private synchronized boolean checkAndMark()
-			{
-				if (isRunning) 
-					return false;
-				isRunning = true;
-				return true;				
-			}
-			
-			//Creates thread and executes code as long as mouse is held down
-			private void initThread()
-			{
-				if (checkAndMark())
-				{
-					new Thread()
-					{
-						public void run()
-						{	
-							//Runs while mouse is down
-							while (isMouseDown == true) 
-							{
-								//Gets mouse location relative to the paint area
-								Point mouse = paintArea.getMousePosition();
-								
-								//Executes when stuff is drawn
-								if (!(mouse == null))
-								{
-									//Gets what pixel the mouse is in relative to the 28x28 pixel grid system
-									int xVal = (int) Math.floor(mouse.getX() / 10d);
-									int yVal = (int) Math.floor(mouse.getY() / 10d);
-									
-									//Sets the pixel that was clicked to "coloured", the constant 0.98828125 is used as the ANN never expects 1.0 as it is too "perfect"
-									try {
-										pixel[xVal][yVal] = 0.98828125;
-										pixel[xVal-1][yVal] = 0.98828125;
-										pixel[xVal+1][yVal] = 0.98828125;
-										pixel[xVal][yVal-1] = 0.98828125;
-										pixel[xVal][yVal+1] = 0.98828125;
-									}
-									catch (Exception e) {
-										System.out.println("getting close to border");
-									}
-								}
-							}
-							isRunning = false;
-						}
-					}.start();
-				}
-			}
-		});		
+		topPanel.add(paintArea);				
 		
 		//Configuring bottomPanel
 		bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
@@ -248,5 +172,98 @@ public class MyFrame extends JFrame
 				new MyFrame().setVisible(true);
 			}
 		});
+	}
+}
+
+class DrawingSpace extends JPanel 
+{
+	private static final long serialVersionUID = 1L;
+
+	public DrawingSpace()
+	{
+		setPreferredSize(new Dimension(280,280));
+		setMaximumSize(new Dimension(280,280));
+		setBackground(Color.DARK_GRAY);
+		addMouseListener(new MouseListener() {
+			
+			volatile private boolean isMouseDown = false;
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				isMouseDown = true;
+				initThread();
+			}
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				isMouseDown = false;
+			}
+			
+			//Unneeded methods required to remain
+			@Override public void mouseExited(MouseEvent e){}
+			@Override public void mouseEntered(MouseEvent e){}
+			@Override public void mouseClicked(MouseEvent e){}
+			
+			//State of thread
+			volatile private boolean isRunning = false;
+			
+			//Checks if there is already a new thread in existence
+			private synchronized boolean checkAndMark()
+			{
+				if (isRunning) 
+					return false;
+				isRunning = true;
+				return true;				
+			}
+			
+			//Creates thread and executes code as long as mouse is held down
+			private void initThread()
+			{
+				if (checkAndMark())
+				{
+					new Thread()
+					{
+						public void run()
+						{	
+							//Runs while mouse is down
+							while (isMouseDown == true) 
+							{
+								//Gets mouse location relative to the paint area
+								Point mouse = getMousePosition();
+								
+								//Executes when stuff is drawn
+								if (!(mouse == null))
+								{
+									//Gets what pixel the mouse is in relative to the 28x28 pixel grid system
+									int xVal = (int) Math.floor(mouse.getX() / 10d);
+									int yVal = (int) Math.floor(mouse.getY() / 10d);
+									
+									//Sets the pixel that was clicked to "coloured", the constant 0.98828125 is used as the ANN never expects 1.0 as it is too "perfect"
+									try {
+										MyFrame.pixel[xVal][yVal] = 0.98828125;
+										MyFrame.pixel[xVal-1][yVal] = 0.98828125;
+										MyFrame.pixel[xVal+1][yVal] = 0.98828125;
+										MyFrame.pixel[xVal][yVal-1] = 0.98828125;
+										MyFrame.pixel[xVal][yVal+1] = 0.98828125;
+									}
+									catch (Exception e) {
+										
+									}
+									repaint();
+								}
+							}
+							isRunning = false;
+						}
+					}.start();
+				}
+			}
+		});
+	}
+	
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		Point mouse = getMousePosition();
+		g.setColor(Color.WHITE);
+		g.fillOval((int)mouse.getX()-15, (int)mouse.getY()-15, 30, 30);
 	}
 }
