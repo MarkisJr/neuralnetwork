@@ -13,7 +13,7 @@ public class Mnist {
 
     public static void main(String[] args) 
     {
-    	test();
+    	
     }
 
     @SuppressWarnings("resource")

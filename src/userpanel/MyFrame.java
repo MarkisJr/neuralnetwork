@@ -101,20 +101,24 @@ public class MyFrame extends JFrame
 								//Gets mouse location relative to the paint area
 								Point mouse = paintArea.getMousePosition();
 								
-								//Debug
-								if (mouse == null)
-									System.out.println("Exceeding bounds");
-								//Executes stuff is drawn
-								else
+								//Executes when stuff is drawn
+								if (!(mouse == null))
 								{
 									//Gets what pixel the mouse is in relative to the 28x28 pixel grid system
 									int xVal = (int) Math.floor(mouse.getX() / 10d);
 									int yVal = (int) Math.floor(mouse.getY() / 10d);
 									
 									//Sets the pixel that was clicked to "coloured", the constant 0.98828125 is used as the ANN never expects 1.0 as it is too "perfect"
-									pixel[xVal][yVal] = 0.98828125;
-									
-									
+									try {
+										pixel[xVal][yVal] = 0.98828125;
+										pixel[xVal-1][yVal] = 0.98828125;
+										pixel[xVal+1][yVal] = 0.98828125;
+										pixel[xVal][yVal-1] = 0.98828125;
+										pixel[xVal][yVal+1] = 0.98828125;
+									}
+									catch (Exception e) {
+										System.out.println("getting close to border");
+									}
 								}
 							}
 							isRunning = false;
@@ -147,7 +151,7 @@ public class MyFrame extends JFrame
 				
 				try 
 				{
-					Network net = Network.loadNetwork("/mnist1.txt");
+					Network net = Network.loadNetwork("mnist1.txt");
 					test(net, pack(pixel));					
 				} 
 				catch (Exception e1) 
