@@ -246,9 +246,7 @@ class DrawingSpace extends JPanel
 										MyFrame.pixel[xVal][yVal-1] = 0.98828125;
 										MyFrame.pixel[xVal][yVal+1] = 0.98828125;
 									}
-									catch (Exception e) {
-										
-									}
+									catch (Exception e) {}
 									repaint();
 								}
 							}
@@ -261,9 +259,19 @@ class DrawingSpace extends JPanel
 	}
 	
 	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		Point mouse = getMousePosition();
-		g.setColor(Color.WHITE);
-		g.fillOval((int)mouse.getX()-15, (int)mouse.getY()-15, 30, 30);
+		try
+		{
+			super.paintComponent(g);
+			g.setColor(Color.WHITE);
+			for (int x=0; x<MyFrame.pixel.length; x++)
+			{
+				for (int y=0; y<MyFrame.pixel[x].length; y++)
+				{
+					if (MyFrame.pixel[x][y] != 0.0)
+						g.fillRect(x*10, y*10, 10, 10);
+				}
+			}
+		}
+		catch (Exception e) {}
 	}
 }
