@@ -2,12 +2,17 @@ package userpanel;
 
 import network.*;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 
 /*
  *  Made by MarkisJr. 28/07/2020
@@ -106,6 +111,7 @@ public class MyFrame extends JFrame
 					for (int j=0; j<pixel[i].length; j++)
 					{
 						pixel[i][j] = 0d;
+						repaint();
 					}
 				}
 			}
@@ -117,6 +123,13 @@ public class MyFrame extends JFrame
 		getContentPane().add(splitPane);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("Guess my Number");
+//		try {
+//			InputStream in = getClass().getResourceAsStream("icon.png");
+//			BufferedImage img = ImageIO.read(in);
+//			setIconImage(img);
+//		} 
+//		catch (IOException e1) {}
 		
 		//Packs data for Runnable() class
 		pack();
@@ -156,7 +169,7 @@ public class MyFrame extends JFrame
 			output.setText("Please Draw a Number");
 		//Actual result
 		else
-			output.setText(String.valueOf(Math.round(NetworkTools.highestValue(temp) * 10000d) / 100d) + "% it's " + String.valueOf(answer));
+			output.setText(String.valueOf(Math.round(NetworkTools.highestValue(temp) * 10000d) / 100d) + "% it's " + String.valueOf((int)answer));
     }
 	
 
