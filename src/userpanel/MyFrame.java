@@ -28,7 +28,7 @@ public class MyFrame extends JFrame
 	private final JPanel bottomPanel;
 	private final DrawingSpace paintArea;
 	public static JLabel output;
-	private final JButton calculate;
+	public static JButton calculate;
 	private final JButton reset;
 	
 	//Pixel parser
@@ -76,7 +76,6 @@ public class MyFrame extends JFrame
 			public void actionPerformed(ActionEvent e) 
 			{
 				calculate.setEnabled(false);
-				reset.setEnabled(true);
 				
 				try 
 				{
@@ -91,7 +90,6 @@ public class MyFrame extends JFrame
 		});
 		
 		//Reset button code, clears 2d array of previous drawing and toggles buttons
-		reset.setEnabled(false);
 		reset.setAlignmentX(Component.CENTER_ALIGNMENT);
 		reset.setMinimumSize(new Dimension(80,40));
 		reset.setText("Reset");
@@ -102,7 +100,6 @@ public class MyFrame extends JFrame
 			public void actionPerformed(ActionEvent e) 
 			{
 				calculate.setEnabled(true);
-				reset.setEnabled(false);
 				
 				output.setText("Please Draw a Value");
 				
@@ -245,7 +242,7 @@ class DrawingSpace extends JPanel
 								Point mouse = getMousePosition();
 								
 								//Executes when stuff is drawn
-								if (!(mouse == null))
+								if ((mouse != null) && (MyFrame.calculate.isEnabled()))
 								{
 									//Gets what pixel the mouse is in relative to the 28x28 pixel grid system
 									int xVal = (int) Math.floor(mouse.getX() / 10d);

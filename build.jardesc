@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
 <jardesc>
-    <jar path="nn/build/ANN-Number-Tester-v0.1b.jar"/>
+    <jar path="nn/build/ANN-Number-Tester-v0.2b.jar"/>
     <options buildIfNeeded="true" compress="true" descriptionLocation="/nn/build.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="true" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
     <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
     <selectedProjects/>
