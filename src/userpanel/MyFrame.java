@@ -3,16 +3,16 @@ package userpanel;
 import network.*;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
+//import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
+//import java.awt.image.BufferedImage;
+//import java.io.IOException;
+//import java.io.InputStream;
 
 /*
  *  Made by MarkisJr. 28/07/2020
