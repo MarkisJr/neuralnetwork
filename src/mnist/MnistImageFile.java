@@ -4,7 +4,8 @@ package mnist;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-/**
+/*
+ * This is a class created by the MNIST team, used by me to load the image file
  * 
  * MNIST database image file. Contains additional header information for the
  * number of rows and columns per each entry.

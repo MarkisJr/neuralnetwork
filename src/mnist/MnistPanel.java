@@ -11,7 +11,8 @@ import java.io.IOException;
 public class MnistPanel extends JPanel {
 
 	/*
-	 * Created by Luecx on 10.08.2017 
+	 * Created by Luecx on 10.08.2017
+	 * Visually shows you the image database
 	 */
 	private static final long serialVersionUID = 2789376983756851940L;
 	private MnistImageFile image;

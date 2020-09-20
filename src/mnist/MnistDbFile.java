@@ -6,7 +6,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
-/**
+/*
+ * This is a class created by the MNIST team, used by me to load the database file
+ * 
  * MNIST database file containing entries that can represent image or label
  * data. Extends the standard random access file with methods for navigating
  * over the entries. The file format is basically idx with specific header

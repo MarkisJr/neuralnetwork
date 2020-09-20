@@ -8,6 +8,8 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
+//Unused class provided by MNIST team
+
 import javax.imageio.ImageIO;
 
 public class MnistImageLoader {

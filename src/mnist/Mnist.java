@@ -2,18 +2,31 @@ package mnist;
 
 import network.*;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Arrays;
 
-/**
+/*
  * Created by MarkisJr. 13/07/2020
+ * This class was used to train the ANN, training can be done through calling the main method
+ * mnist1.txt, used by the Number Guesser program was created this way
  */
 public class Mnist {
 
     public static void main(String[] args) 
     {
+    	//This commented code creates a new trained network for images 1-20,000 saved to mnistX.txt
+//    	Network net = new Network(784, 75, 30, 10);
+//    	TrainSet set = createTrainSet(0, 19999);
+//    	
+//    	trainData(net, set, 100, 100, 100, "res/mnistX.txt");
     	
+    	//This commented code loads mnistX.txt and tests it on images 20,000 to 25,000
+//    	try 
+//    	{
+//			Network net = Network.loadNetwork("res/mnistX.txt");
+//			TrainSet set = createTrainSet(20000, 24999);
+//			
+//			testTrainSet(net, set, 100);
+//		} 
+//    	catch (Exception e) {}
     }
 
     @SuppressWarnings("resource")
