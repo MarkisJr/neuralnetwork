@@ -10,25 +10,28 @@ import java.util.Arrays;
 
 public class TrainSet 
 {
-
+	//Constants set when class is called
     public final int INPUT_SIZE;
     public final int OUTPUT_SIZE;
 
     //double[][] <- index1: 0 = input, 1 = output || index2: index of element
     private ArrayList<double[][]> data = new ArrayList<>();
 
+    //Setting inputs to constants
     public TrainSet(int INPUT_SIZE, int OUTPUT_SIZE) 
     {
         this.INPUT_SIZE = INPUT_SIZE;
         this.OUTPUT_SIZE = OUTPUT_SIZE;
     }
 
+    //List handles tracking of inputs to expected outputs
     public void addData(double[] in, double[] expected) 
     {
         if(in.length != INPUT_SIZE || expected.length != OUTPUT_SIZE) return;
         data.add(new double[][]{in, expected});
     }
 
+    //Uses its own methods to extract the batch
     public TrainSet extractBatch(int size) 
     {
         if(size > 0 && size <= this.size()) 
@@ -44,6 +47,7 @@ public class TrainSet
         else return this;
     }
 
+    //Used to display inputs and outputs to console, unused (testing)
     public String toString() 
     {
         String s = "TrainSet ["+INPUT_SIZE+ " ; "+OUTPUT_SIZE+"]\n";
@@ -56,6 +60,7 @@ public class TrainSet
         return s;
     }
 
+    //Methods responsible for external use when retrieving data from the set
     public int size() 
     {
         return data.size();

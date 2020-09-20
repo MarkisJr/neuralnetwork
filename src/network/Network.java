@@ -94,7 +94,7 @@ public class Network
 		return 1d / (1 + Math.exp(-x));
 	}
 	
-	//Instructs the network what to aim for during learning process (desired result)
+	//MSE represents the rate of error, the lower the number the more accurate the network
 	public double MSE(double[] input, double[] target)
 	{
 		if(input.length != INPUT_SIZE || target.length != OUTPUT_SIZE) return 0;
@@ -127,6 +127,7 @@ public class Network
 			TrainSet batch = set.extractBatch(batch_size);
 			for (int b=0; b<batch.size(); b++)
 			{
+				//0.3 is the learning rate of the ANN, 0.3 is quite a high value already, take caution when changing value
 				this.train(batch.getInput(b), batch.getOutput(b), 0.3);
 			}
 			System.out.println(MSE(batch));
