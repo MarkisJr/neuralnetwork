@@ -61,13 +61,17 @@ public class MyFrame extends JFrame
 		bottomPanel.add(output);
 		bottomPanel.add(calculate);
 		bottomPanel.add(reset);
+		
+		//Configuring Label
 		output.setAlignmentX(Component.CENTER_ALIGNMENT);
 		output.setText("Please Draw a Value");
 		
-		//Sends drawing to ANN and calls test method
+		//Configuring calculate button
 		calculate.setAlignmentX(Component.CENTER_ALIGNMENT);
 		calculate.setMinimumSize(new Dimension(80,40));
 		calculate.setText("Calculate");
+		
+		//Sends drawing to ANN and calls test method
 		calculate.addActionListener(new ActionListener() 
 		{
 			
@@ -86,7 +90,7 @@ public class MyFrame extends JFrame
 			}
 		});
 		
-		//Reset button code, clears 2d array of previous drawing and toggles buttons
+		//Reset button code, clears 2d array of previous drawing and toggles calculate button
 		reset.setAlignmentX(Component.CENTER_ALIGNMENT);
 		reset.setMinimumSize(new Dimension(80,40));
 		reset.setText("Reset");
@@ -111,7 +115,7 @@ public class MyFrame extends JFrame
 			}
 		});
 		
-		//Window dimensions and layout
+		//Window dimensions, layout and icon
 		setPreferredSize(new Dimension(292, 400));
 		getContentPane().setLayout(new GridLayout());
 		getContentPane().add(splitPane);
@@ -182,19 +186,23 @@ public class MyFrame extends JFrame
 	}
 }
 
+//Custom class for the drawing space
 class DrawingSpace extends JPanel 
 {
 	private static final long serialVersionUID = 1L;
 
 	public DrawingSpace()
 	{
+		//Settings of drawing space
 		setPreferredSize(new Dimension(280,280));
 		setMaximumSize(new Dimension(280,280));
 		setBackground(Color.DARK_GRAY);
+		//Mouse listener for when drawing on the paint area
 		addMouseListener(new MouseListener() {
 			
 			volatile private boolean isMouseDown = false;
 			
+			//mousePressed and mouseReleased used to control the thread
 			@Override
 			public void mousePressed(MouseEvent e) {
 				isMouseDown = true;
@@ -223,7 +231,7 @@ class DrawingSpace extends JPanel
 				return true;				
 			}
 			
-			//Creates thread and executes code as long as mouse is held down
+			//Creates thread
 			private void initThread()
 			{
 				if (checkAndMark())
@@ -238,7 +246,7 @@ class DrawingSpace extends JPanel
 								//Gets mouse location relative to the paint area
 								Point mouse = getMousePosition();
 								
-								//Executes when stuff is drawn
+								//Executes when stuff is drawn and nothing has been calculated
 								if ((mouse != null) && (MyFrame.calculate.isEnabled()))
 								{
 									//Gets what pixel the mouse is in relative to the 28x28 pixel grid system
@@ -246,7 +254,9 @@ class DrawingSpace extends JPanel
 									int yVal = (int) Math.floor(mouse.getY() / 10d);
 									
 									//Sets the pixel that was clicked to "coloured", the constant 0.98828125 is used as the ANN never expects 1.0 as it is too "perfect"
-									try {
+									//5 iterations due to brush size
+									try 
+									{
 										MyFrame.pixel[xVal][yVal] = 0.98828125;
 										MyFrame.pixel[xVal-1][yVal] = 0.98828125;
 										MyFrame.pixel[xVal+1][yVal] = 0.98828125;
@@ -265,6 +275,7 @@ class DrawingSpace extends JPanel
 		});
 	}
 	
+	//Paint method fills in pixels each time thread is run
 	public void paintComponent(Graphics g) {
 		try
 		{
