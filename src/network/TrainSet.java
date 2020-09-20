@@ -3,7 +3,7 @@ package network;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-/**
+/*
  *  Made by MarkisJr. 28/07/2020
  *  Handles batches of data
  */

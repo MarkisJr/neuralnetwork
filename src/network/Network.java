@@ -238,7 +238,7 @@ public class Network
 			
 			for (int n=0; n<net.NETWORK_LAYER_SIZES[i]; n++)
 			{
-				String current = p.getValue(new String[] { "Network", "Layers", new String(i + ""), "weights"}, "" + n);
+				String current = p.getValue(new String[] { "Network", "Layers", new String(i + ""), "weights" }, "" + n);
 				double[] val = ParserTools.parseDoubleArray(current);
 				
 				net.weights[i][n] = val;
