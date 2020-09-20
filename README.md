@@ -20,7 +20,7 @@ Look for the assets tab and download the executable jar for use.
 - [JRE / JDK] 1.8 or later
 
 ## Gallery
-![frame](frame.png)
+![frame](frame.png) ![frame2](frame1.png)
 
 ## References
 - The MNIST database site (source of MNIST classes): http://yann.lecun.com/exdb/mnist/
