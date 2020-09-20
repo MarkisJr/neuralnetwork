@@ -19,6 +19,9 @@ Look for the assets tab and download the executable jar for use.
 ### Requirements
 - [JRE / JDK] 1.8 or later
 
+## Documentation
+Information on how to use the program or create your own training set with the mnist package can be found on the [Wiki](https://github.com/MarkisJr/neuralnetwork/wiki) **(Under construction)**
+
 ## Gallery
 ![frame](frame.png) ![frame2](frame1.png)
 
