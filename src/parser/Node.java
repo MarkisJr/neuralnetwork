@@ -3,7 +3,9 @@ package parser;
 import java.util.ArrayList;
 
 /*
- * Made by Finn Eggers
+ * Made by MarkisJr. 15/08/2020
+ * This class was in part inspired by/sourced from Finn Eggers
+ * Some of the functions utilising objects I do not fully understand
  */
 
 public class Node 
