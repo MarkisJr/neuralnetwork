@@ -15,6 +15,10 @@ Created by MarkisJr. to study the applications and build process of Networks.
 - Java based: Runs on the java virtual machine meaning the core network code can be ran on any platform that supports java
 
 
+## Documentation
+For information on how to incorperate the ANN into your code, visit the [Wiki](https://github.com/MarkisJr/neuralnetwork/wiki)...
+
+
 ## Current Projects:
 - [MNIST database / Guess my Number Program](https://github.com/MarkisJr/neuralnetwork/tree/MNIST-database-learning) - Dedicated to learning numbers from the MNIST database as well as incorperate user interaction.
 
