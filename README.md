@@ -21,6 +21,7 @@ For information on how to incorperate the ANN into your code, visit the [Wiki](h
 
 ## Current Projects:
 - [MNIST database / Guess my Number Program](https://github.com/MarkisJr/neuralnetwork/tree/MNIST-database-learning) - Dedicated to learning numbers from the MNIST database as well as incorperate user interaction.
+- [SPIRO Image Learning](https://github.com/MarkisJr/neuralnetwork/tree/SPIRO) - A project for procerderally generating images from a reference database of my friend Spiro
 
 
 ## Links and Bibliography:
